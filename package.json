@@ -1,0 +1,19 @@
+{
+  "name": "gebeya-smart-contract",
+  "version": "1.0.0",
+  "description": "smart contract for asset ownership transfer",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tesfaye belachew abebe",
+  "license": "MIT",
+  "dependencies": {
+    "ethereumjs-util": "^5.1.5",
+    "ethjs-util": "^0.1.4",
+    "keythereum": "^1.0.2"
+  }
+}

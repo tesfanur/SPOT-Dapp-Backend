@@ -1,0 +1,5 @@
+# Node build artifacts
+node_modules/
+config/config_c.js
+build/
+test/
