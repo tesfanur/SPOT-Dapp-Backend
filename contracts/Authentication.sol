@@ -12,12 +12,15 @@ struct UserStruct {
  bytes32 firstName;
  bytes32 middleName;
  bytes32 lastName;
+ bytes32 email;
  bytes32 username;
 }
 
 
   mapping (address => User) public users;
   mapping (address => UserStruct) public UsersDB;
+  uint public totalNumberOfUsers;
+  address[] public userEthAccounts;
 
   uint private id; // Stores user id temporarily
 
@@ -47,15 +50,14 @@ struct UserStruct {
   */
   function getUser() constant
   public
-  returns (bytes32,bytes32,bytes32,bytes32) {
-    return (UsersDB[msg.sender].firstName,
+  returns (address, bytes32,bytes32,bytes32,bytes32,bytes32) {
+    return (UsersDB[msg.sender].userAccount,
+            UsersDB[msg.sender].firstName,
             UsersDB[msg.sender].middleName,
             UsersDB[msg.sender].lastName,
+            UsersDB[msg.sender].email,
             UsersDB[msg.sender].username);
   }
-
-
-
 
   function signup(bytes32 name)
   public
@@ -87,26 +89,36 @@ struct UserStruct {
     (bytes32 _fName,
     bytes32 _lName,
     bytes32 _middleName,
+    bytes32 _email,
     bytes32 _username) public payable returns(bool success)  {
   	counterparty.userAccount=msg.sender;
+    totalNumberOfUsers++;
     	counterparty.firstName=_fName;
     	counterparty.lastName=_lName;
     	counterparty.middleName=_middleName;
+      counterparty.email=_email;
     	counterparty.username=_username;
+
+      //save user struct object inot UsersDB
       UsersDB[msg.sender] = counterparty;
+
+      //add user ethereum account address into userEthAccounts array
+      userEthAccounts.push(msg.sender);
+
     	userList.push(counterparty);
     	success=true;
     }
   	/**
   	* view all users/counterparties
   	*/
-    function getAllUsers() constant public returns(address[], bytes32[], bytes32[],bytes32[],bytes32[]){
+    function getAllUsers() constant public returns(address[], bytes32[],bytes32[], bytes32[],bytes32[],bytes32[]){
     	uint TOTAL_USERS = userList.length;
   		// declare an array for each UserStruct attributes
-  	address[] memory userAccounts= new address[](TOTAL_USERS);
+  	  address[] memory userAccounts= new address[](TOTAL_USERS);
     	bytes32[] memory firstNames= new bytes32[](TOTAL_USERS);
     	bytes32[] memory middleNames= new bytes32[](TOTAL_USERS);
     	bytes32[] memory lastNames= new bytes32[](TOTAL_USERS);
+      bytes32[] memory emails= new bytes32[](TOTAL_USERS);
     	bytes32[] memory usernames= new bytes32[](TOTAL_USERS);
 
   //loop over users struct array and assign them to bytes array since solidity is not yet provide
@@ -114,18 +126,56 @@ struct UserStruct {
   	    for(uint i;i<TOTAL_USERS;i++){
   	    	UserStruct memory currentCounterparty;
   	    	currentCounterparty=userList[i];
-  			userAccounts[i]=currentCounterparty.userAccount;
+  			  userAccounts[i]=currentCounterparty.userAccount;
   	    	firstNames[i]=currentCounterparty.firstName;
   	    	lastNames[i]=currentCounterparty.lastName;
   	    	middleNames[i]=currentCounterparty.middleName;
+          emails[i]=currentCounterparty.email;
   	    	usernames[i]=currentCounterparty.username;
   	     }
   		//solidity doesn't support string concatination and hence u need work with bytes
   		//front end/dapp developer can convert the returned bytes32 into ascii
   		//using web3.js
-      return(userAccounts,firstNames,middleNames,lastNames,usernames);
+      return(userAccounts,firstNames,middleNames,lastNames,emails,usernames);
     }
 
+
+    /**
+    * view users/counterparties
+    */
+    function getUsers() constant public
+    returns(address[], bytes32[], bytes32[],bytes32[],bytes32[],bytes32[]){
+      //uint TOTAL_USERS = userList.length;
+      uint TOTAL_USERS = userEthAccounts.length;
+      // declare an array for each UserStruct attributes
+      address[] memory userAccounts= new address[](TOTAL_USERS);
+      bytes32[] memory firstNames= new bytes32[](TOTAL_USERS);
+      bytes32[] memory middleNames= new bytes32[](TOTAL_USERS);
+      bytes32[] memory lastNames= new bytes32[](TOTAL_USERS);
+      bytes32[] memory emails= new bytes32[](TOTAL_USERS);
+      bytes32[] memory usernames= new bytes32[](TOTAL_USERS);
+
+    //loop over users struct array and assign them to bytes array since solidity is not yet provide
+    //a feature to return struct data types
+        for(uint i;i<TOTAL_USERS;i++){
+          UserStruct memory currentCounterparty;
+
+          currentCounterparty=userList[i];
+          //or
+          currentCounterparty=UsersDB[userEthAccounts[i]];
+
+          userAccounts[i]=currentCounterparty.userAccount;
+          firstNames[i]=currentCounterparty.firstName;
+          lastNames[i]=currentCounterparty.lastName;
+          middleNames[i]=currentCounterparty.middleName;
+          emails[i]=currentCounterparty.email;
+          usernames[i]=currentCounterparty.username;
+         }
+      //solidity doesn't support string concatination and hence u need work with bytes
+      //front end/dapp developer can convert the returned bytes32 into ascii
+      //using web3.js
+      return(userAccounts,firstNames,middleNames,lastNames,emails,usernames);
+    }
  /**
  *
  */
