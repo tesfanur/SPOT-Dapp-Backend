@@ -1,6 +1,6 @@
 pragma solidity ^0.4.19;
-
-      contract Seller {
+import "./User.sol";
+      contract Seller is User{
           function Seller() public{
     // constructor
       }

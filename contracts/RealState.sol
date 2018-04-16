@@ -30,7 +30,6 @@ contract RealState {
 			buyer==0x0 &&
 			price ==msg.value);
 		_;
-
 	}
 
   function buyHouse() payable public canBuyOnIf{

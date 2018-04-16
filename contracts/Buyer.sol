@@ -1,6 +1,6 @@
 pragma solidity ^0.4.19;
-
-contract Buyer {
+import "./User.sol";
+contract Buyer is User{
   bytes32 name;
   bytes32 username;
   function Buyer() public{
@@ -11,5 +11,5 @@ contract Buyer {
     name =_name;
   username =_username;
  }
- 
+
 }
