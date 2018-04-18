@@ -2,6 +2,11 @@ pragma solidity ^0.4.2;
 
 import './zeppelin/lifecycle/Killable.sol';
 
+/// @title User Authentication Contract
+/// @author Tesfaye Belachew Abebe <get.tesfaye.belachew@gmail.com>
+/// @notice You can use this contract for user registeration, login, update user Data and view user info
+/// @dev All function calls are currently implement without side effects
+
 contract Authentication is Killable {
   struct User {
     bytes32 name;
@@ -21,12 +26,24 @@ struct UserStruct {
   mapping (address => UserStruct) public UsersDB;
   uint public totalNumberOfUsers;
   address[] public userEthAccounts;
+  event UserSuccessfullyRegisterd(
+  address _userAccount,
+   bytes32 _firstName,
+   bytes32 _middleName,
+   bytes32 _lastName,
+   bytes32 _email,
+   bytes32 _username);
 
   uint private id; // Stores user id temporarily
 
   modifier onlyExistingUser {
     // Check if user exists or terminate
     require(!(users[msg.sender].name == 0x0));
+    _;
+  }
+  modifier onlyRegisterdUser {
+    // Check if user exists or terminate
+    require(!(UsersDB[msg.sender].userAccount == 0x0));
     _;
   }
 
@@ -36,48 +53,16 @@ struct UserStruct {
     require(!(name == 0x0));
     _;
   }
-
-  function login() constant
-  public
-  onlyExistingUser
-  returns (bytes32) {
-    return (users[msg.sender].name);
-  }
   /**
-  *Get user by the address who called the function
-  *Here is the syntax to call this function
-  *Authentication.at(Authentication.address).getUser({from:web3.eth.accounts[1]})
-  */
-  function getUser() constant
-  public
-  returns (address, bytes32,bytes32,bytes32,bytes32,bytes32) {
-    return (UsersDB[msg.sender].userAccount,
-            UsersDB[msg.sender].firstName,
-            UsersDB[msg.sender].middleName,
-            UsersDB[msg.sender].lastName,
-            UsersDB[msg.sender].email,
-            UsersDB[msg.sender].username);
+  *Replacement modfier for onlyValidName
+  **/
+  modifier onlyNoUserAccount() {
+    // Only users with valid ethereum account is allowed
+    require(UsersDB[msg.sender].userAccount == 0x0);
+    _;
   }
 
-  function signup(bytes32 name)
-  public
-  payable
-  onlyValidName(name)
-  returns (bytes32) {
-    // Check if user exists.
-    // If yes, return user name.
-    // If no, check if name was sent.
-    // If yes, create and return user.
 
-    if (users[msg.sender].name == 0x0)
-    {
-        users[msg.sender].name = name;
-
-        return (users[msg.sender].name);
-    }
-
-    return (users[msg.sender].name);
-  }
 
   UserStruct[] public userList;
   UserStruct public counterparty;
@@ -85,16 +70,27 @@ struct UserStruct {
   /**
   *register user/counterparty: buyer & sellers]
   */
+/// @author Tesfaye Belachew Abebe <get.tesfaye.belachew@gmail.com>
+/// @notice Allows user to get registed
+/// @dev    Here user refers to a buyer or seller of an asset
+/// @param _firstName The first name of a user (English)
+/// @param _middleName The middle name of a user (English)
+/// @param _lastName The last name of a user (English)
+/// @param _email The first email address of a user (English)
+/// @param _username The first username of a user (English)
+/// @return true if user registeration is suscceful
     function registerUser
-    (bytes32 _fName,
-    bytes32 _lName,
+    (bytes32 _firstName,
+    bytes32 _lastName,
     bytes32 _middleName,
     bytes32 _email,
-    bytes32 _username) public payable returns(bool success)  {
+    bytes32 _username) public payable
+    onlyNoUserAccount
+    returns(bool success)  {
   	counterparty.userAccount=msg.sender;
     totalNumberOfUsers++;
-    	counterparty.firstName=_fName;
-    	counterparty.lastName=_lName;
+    	counterparty.firstName=_firstName;
+    	counterparty.lastName=_lastName;
     	counterparty.middleName=_middleName;
       counterparty.email=_email;
     	counterparty.username=_username;
@@ -106,11 +102,51 @@ struct UserStruct {
       userEthAccounts.push(msg.sender);
 
     	userList.push(counterparty);
+      
+      emit UserSuccessfullyRegisterd(
+         msg.sender, _firstName, _middleName,
+         _lastName, _email, _username);
     	success=true;
     }
+
+
+      /**
+      *modified user login
+      * to login from ethereum client use:
+      * Authentication.at(Authentication.address).login({from: web3.eth.accounts[2]})
+      */
+      /// @author Tesfaye Belachew Abebe <get.tesfaye.belachew@gmail.com>
+      /// @notice Allows user to login using their ethereum account
+      /// @dev    Here user refers to a buyer or seller of an asset
+      /// @return  user account and username if user login is suscceful
+      function login() constant
+      public
+      onlyRegisterdUser
+      returns (address, bytes32) {
+        return (UsersDB[msg.sender].userAccount,UsersDB[msg.sender].username);
+      }
+      /**
+      *Get user by the address who called the function
+      *Here is the syntax to call this function
+      *Authentication.at(Authentication.address).getUser({from:web3.eth.accounts[1]})
+      */
+      function getUser()
+      constant public
+      returns (address, bytes32,bytes32,bytes32,bytes32,bytes32) {
+        return (UsersDB[msg.sender].userAccount,
+                UsersDB[msg.sender].firstName,
+                UsersDB[msg.sender].middleName,
+                UsersDB[msg.sender].lastName,
+                UsersDB[msg.sender].email,
+                UsersDB[msg.sender].username);
+      }
   	/**
   	* view all users/counterparties
   	*/
+    /// @author Tesfaye Belachew Abebe <get.tesfaye.belachew@gmail.com>
+    /// @notice Allows users to view all acounterparties info
+    /// @dev    Here user refers to a buyer or seller of an asset
+    /// @return array of user attributes if query made is suscceful
     function getAllUsers() constant public returns(address[], bytes32[],bytes32[], bytes32[],bytes32[],bytes32[]){
     	uint TOTAL_USERS = userList.length;
   		// declare an array for each UserStruct attributes
@@ -143,6 +179,10 @@ struct UserStruct {
     /**
     * view users/counterparties
     */
+    /// @author Tesfaye Belachew Abebe <get.tesfaye.belachew@gmail.com>
+    /// @notice Allows user view counterparties detail information
+    /// @dev    Here user refers to either a buyer or seller of an asset
+    /// @return users detail info if requested query is suscceful
     function getUsers() constant public
     returns(address[], bytes32[], bytes32[],bytes32[],bytes32[],bytes32[]){
       //uint TOTAL_USERS = userList.length;
@@ -179,19 +219,45 @@ struct UserStruct {
  /**
  *
  */
-  function update(bytes32 name)
+ /// @author Tesfaye Belachew Abebe <get.tesfaye.belachew@gmail.com>
+ /// @notice Allows user to update their profile info
+ /// @dev    Here user refers to a buyer or seller of an asset
+ /// @param _firstName The first name of a user (English)
+ /// @param _middleName The middle name of a user (English)
+ /// @param _lastName The last name of a user (English)
+ /// @param _email The first email address of a user (English)
+ /// @param _username The first username of a user (English)
+ /// @return updated user infor if user update query is suscceful
+
+  function updateUserData(
+    bytes32 _firstName,
+    bytes32 _middleName,
+    bytes32 _lastName,
+    bytes32 _email,
+    bytes32 _username)
   public
   payable
-  onlyValidName(name)
+  onlyOwner
   onlyExistingUser
-  returns (bytes32) {
-    // Update user name.
+  returns (address, bytes32,bytes32,bytes32,bytes32,bytes32) {
+            if(_firstName!=0x0)
+            UsersDB[msg.sender].firstName=_firstName;
+            if(_middleName!=0x0)
+            UsersDB[msg.sender].middleName=_middleName;
+            if(_lastName!=0x0)
+            UsersDB[msg.sender].lastName=_lastName;
+            if(_email!=0x0)
+            UsersDB[msg.sender].email=_email;
+            if(_username!=0x0)
+            UsersDB[msg.sender].username=_username;
 
-    if (users[msg.sender].name != 0x0)
-    {
-        users[msg.sender].name = name;
 
-        return (users[msg.sender].name);
-    }
+    return (UsersDB[msg.sender].userAccount,
+            UsersDB[msg.sender].firstName,
+            UsersDB[msg.sender].middleName,
+            UsersDB[msg.sender].lastName,
+            UsersDB[msg.sender].email,
+            UsersDB[msg.sender].username);
   }
+
 }

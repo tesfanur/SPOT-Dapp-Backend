@@ -14,13 +14,14 @@ contract User {
 9. use decyphertv npm module utils for contract dev
 */
      //buyer || seller => Counterparty
-	struct UserStruct {
-		address userAccount;
-		bytes32 firstName;
-		bytes32 lastName;
-		bytes32 email;
-		bytes32 username;
-	}
+			struct UserStruct {
+				address userAccount;
+				bytes32 firstName;
+				bytes32 lastName;
+				bytes32 email;
+				bytes32 username;
+			}
+
   event UserRegisterdSuccessfully();
 	/*Insert here all the events required for this contract */
 
@@ -55,7 +56,8 @@ contract User {
   function getAllUsers() constant public returns(address[], bytes32[], bytes32[],bytes32[],bytes32[]){
   	uint TOTAL_USERS = userList.length;
 		// declare an array for each UserStruct attributes
-	address[] memory userAccounts= new address[](TOTAL_USERS);
+		//Note: working with array of strings in solidity is not supported yet
+	  address[] memory userAccounts= new address[](TOTAL_USERS);
   	bytes32[] memory firstNames= new bytes32[](TOTAL_USERS);
   	bytes32[] memory lastNames= new bytes32[](TOTAL_USERS);
   	bytes32[] memory usernames= new bytes32[](TOTAL_USERS);
