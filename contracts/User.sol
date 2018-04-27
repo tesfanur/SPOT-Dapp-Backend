@@ -57,7 +57,7 @@ contract User {
   	uint TOTAL_USERS = userList.length;
 		// declare an array for each UserStruct attributes
 		//Note: working with array of strings in solidity is not supported yet
-	  address[] memory userAccounts= new address[](TOTAL_USERS);
+	address[] memory userAccounts= new address[](TOTAL_USERS);
   	bytes32[] memory firstNames= new bytes32[](TOTAL_USERS);
   	bytes32[] memory lastNames= new bytes32[](TOTAL_USERS);
   	bytes32[] memory usernames= new bytes32[](TOTAL_USERS);
@@ -68,7 +68,7 @@ contract User {
 	    for(uint i;i<TOTAL_USERS;i++){
 	    	UserStruct memory currentCounterparty;
 	    	currentCounterparty=userList[i];
-			userAccounts[i]=currentCounterparty.userAccount;
+			  userAccounts[i]=currentCounterparty.userAccount;
 	    	firstNames[i]=currentCounterparty.firstName;
 	    	lastNames[i]=currentCounterparty.lastName;
 	    	emails[i]=currentCounterparty.email;

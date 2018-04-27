@@ -33,6 +33,13 @@ struct UserStruct {
    bytes32 _lastName,
    bytes32 _email,
    bytes32 _username);
+   event RetrievedUsersInfoSuccesfully(
+     address[] userAccounts,
+     bytes32[] firstNames,
+     bytes32[] middleNames,
+     bytes32[] lastNames,
+     bytes32[] emails,
+     bytes32[] usernames);
 
   uint private id; // Stores user id temporarily
 
@@ -102,7 +109,7 @@ struct UserStruct {
       userEthAccounts.push(msg.sender);
 
     	userList.push(counterparty);
-      
+
       emit UserSuccessfullyRegisterd(
          msg.sender, _firstName, _middleName,
          _lastName, _email, _username);
@@ -133,12 +140,21 @@ struct UserStruct {
       function getUser()
       constant public
       returns (address, bytes32,bytes32,bytes32,bytes32,bytes32) {
-        return (UsersDB[msg.sender].userAccount,
+        UserStruct memory user;
+
+        /* return (UsersDB[msg.sender].userAccount,
                 UsersDB[msg.sender].firstName,
                 UsersDB[msg.sender].middleName,
                 UsersDB[msg.sender].lastName,
                 UsersDB[msg.sender].email,
-                UsersDB[msg.sender].username);
+                UsersDB[msg.sender].username); */
+            user = UsersDB[msg.sender];
+            return (user.userAccount,
+                    user.firstName,
+                    user.middleName,
+                    user.lastName,
+                    user.email,
+                    user.username);
       }
   	/**
   	* view all users/counterparties
@@ -173,6 +189,7 @@ struct UserStruct {
   		//front end/dapp developer can convert the returned bytes32 into ascii
   		//using web3.js
       return(userAccounts,firstNames,middleNames,lastNames,emails,usernames);
+
     }
 
 
@@ -183,7 +200,7 @@ struct UserStruct {
     /// @notice Allows user view counterparties detail information
     /// @dev    Here user refers to either a buyer or seller of an asset
     /// @return users detail info if requested query is suscceful
-    function getUsers() constant public
+    function getUsers() payable public
     returns(address[], bytes32[], bytes32[],bytes32[],bytes32[],bytes32[]){
       //uint TOTAL_USERS = userList.length;
       uint TOTAL_USERS = userEthAccounts.length;
@@ -214,6 +231,13 @@ struct UserStruct {
       //solidity doesn't support string concatination and hence u need work with bytes
       //front end/dapp developer can convert the returned bytes32 into ascii
       //using web3.js
+    emit  RetrievedUsersInfoSuccesfully(
+        userAccounts,
+        firstNames,
+        middleNames,
+        lastNames,
+        emails,
+        usernames);
       return(userAccounts,firstNames,middleNames,lastNames,emails,usernames);
     }
  /**

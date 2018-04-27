@@ -12,6 +12,7 @@ contract CarTrade {
     uint postedDate;//date by which the car is published for sales
     address owner;//make: country + manufacturer/brand
     CarMakeStruct Make;//car make
+    //uint price;
   }
   struct CarMakeStruct {
     //detail car specification is not included here, as it can be found from the manufacturers site
@@ -56,7 +57,7 @@ contract CarTrade {
 
  //get cars owned by seller//return may be an array. So try to modify the function below
  function getCarDetailInfo()
- public constant returns(
+ public  returns(
      bytes32,
      bytes32,
      bool,
@@ -82,7 +83,8 @@ contract CarTrade {
        );
  }
 
-  function getAllCarsDetailInfo() public  returns(bytes32[], bytes32[], bool[], uint[], address[], bytes32[]) {
+  function getAllCarsDetailInfo() public
+  returns(bytes32[], bytes32[], bool[], uint[], address[], uint[]) {
        /* ,
        uint[],
        bytes32[],
@@ -98,10 +100,10 @@ contract CarTrade {
     uint[] memory manufactureYears= new uint[](TOTAL_CARS);
     address[] memory owners= new address[](TOTAL_CARS);
 
-    /* uint[] memory postedDates= new uint[](TOTAL_CARS);
-    bytes32[] memory brands= new bytes32[](TOTAL_CARS);
-    bytes32[] memory countries= new bytes32[](TOTAL_CARS);*/
-    bytes32[] memory manufacturerWebsites= new bytes32[](TOTAL_CARS);
+    uint[] memory postedDates= new uint[](TOTAL_CARS);
+    /*bytes32[] memory brands= new bytes32[](TOTAL_CARS);
+    bytes32[] memory countries= new bytes32[](TOTAL_CARS);
+    bytes32[] memory manufacturerWebsites= new bytes32[](TOTAL_CARS);*/
 
 
      for(uint i; i<TOTAL_CARS;i++){
@@ -113,19 +115,19 @@ contract CarTrade {
        manufactureYears[i] = car.year;
        owners[i] = car.owner;
 
-       /* postedDates[i] = car.postedDate;
-       brands[i] = car.Make.brand;
-       countries[i] = car.Make.country;*/
-       manufacturerWebsites[i] = car.Make.manufacturerWebsite;
+        postedDates[i] = car.postedDate;
+       /*brands[i] = car.Make.brand;
+       countries[i] = car.Make.country;
+       manufacturerWebsites[i] = car.Make.manufacturerWebsite;*/
      }
-          return(
+      return(
        models,
        vins,
        isUseds,
        manufactureYears,
        owners,
-       manufacturerWebsites );  /* ,
-       postedDates,
+       postedDates );  /* ,
+       manufacturerWebsites,
        brands,
        countries,
        manufacturerWebsites */
