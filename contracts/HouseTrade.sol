@@ -63,15 +63,18 @@ contract HouseTrade {
      return(true);
 
  }
-
- //get Houses owned by seller//return may be an array. So try to modify the function below
+ /**
+ get Houses owned by seller//return may be an array. So try to modify the function below
+  */
  function getHouseDetailInfo(bytes32 _houseNum) public constant returns(bytes32, bytes32, uint, bool, uint, address, bytes32, uint, uint, bytes32) {
      //declare temporary HouseStruct variable
        HouseStruct memory house;
        house = HousesDB[_houseNum];
   return(house.company, house.houseNum, house.yearBuilt, house.isUsed, house.postedDate, house.owner, house.location, house.areaInCare, house.price, house.houseType);
  }
-
+ /**
+ Get All Houses registed on ethereum blockchain
+ */
   function getAllHousesDetailInfo() public view
   returns(bytes32[], bytes32[], bool[], uint[], address[], uint[]) {
      //declare arrays that should hold the attributes of a House
@@ -100,96 +103,9 @@ contract HouseTrade {
 
      }
       return(
-       companies,
-       houseNums,
-       isUseds,
-       yearsBuilt,
-       owners,
-       postedDates);
-
+       companies, houseNums, isUseds,
+       yearsBuilt, owners, postedDates);
 
  }
-
-  /* //The address of the House, which will sign transactions made by this contract.
-address public HouseSigner;
-
-// Value of the House, in wei
-uint public HouseValue;
-
-bytes32 public licensePlate;
-
-// Owners of the House, they will be the ones that receive payments from the House.
-// We assume each owner owns the House equally.
-
-address[] public owners;
-uint constant MAX_OWNERS = 100;
-
-//Earning from driving will be distributed to each owner for them to withdraw
-mapping (address => uint) public ownersBalance;
-uint public balanceToDistribute;
-
-uint constant INITIAL_HOUSE_SHARES = 100;
-mapping (address => uint) public HouseShares;
-
-DriverEntity currentDriverEntity;
-DriveStatus currentDriveStatus;
-
-//To keep track of who's currently using the House
-//If the owners are driving it, it will be their address.
-//If someone rented it, it will be the renter address, so he can be held accountable.
-//In this case, we could even ask for a warranty which will be sent back if the House is ok.
-
-address currentDriverAddress;
-uint currentDriveStartTime = 0;
-uint currentDriveRequiredEndTime = 0;
-
-//Rates
-uint constant RATE_DAILYRENTAL = 1 ether; //1 ETH
-
-enum DriverEntity {
-    None,
-    Owner,
-    Autopilot,
-    Cab,
-    Uber,
-    DailyRental,
-    Other
-  }
-
-enum DriveStatus {
-    Idle,
-    Driving,
-    TurnedOff,
-    Unavailable
-  }
-
-// Somehow, the House should be able to communicate its "internals" to the contract.
-// These internals are the ones relevant to the functioning of the contract, such as it's fuel.
-// We don't Housee about oil or coolant for example, at this point at least.
-
-struct HouseInternals {
-    uint fuel; //Measured in percentage
-  }
-
-HouseInternals HouseInternals;
-
-bool HouseIsReady = false;
-
-modifier onlyIfReady {
-        require(HouseIsReady);
-        _;
-    }
-
-function SmartHouse(bytes32 _licensePlate, uint _HouseValue) internal {
-    require(_licensePlate.length >0 && _HouseValue > 0);
-    HouseSigner = msg.sender;
-    HouseValue = _HouseValue;
-    licensePlate = _licensePlate;[address(this)] = INITIAL_HOUSE_SHARES;
-
-    currentDriveStatus = DriveStatus.Idle;
-    currentDriverEntity = DriverEntity.None;
-
-    HouseInternals.fuel = 100;
-  } */
 
 }

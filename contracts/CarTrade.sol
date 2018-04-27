@@ -3,12 +3,18 @@ pragma solidity ^0.4.19;
 
 contract CarTrade {
 
+  /**
+  *Car Make struct definition/object
+  */
   struct CarMakeStruct {
     //detail car specification is not included here, as it can be found from the manufacturers site
     bytes32 brand;//make: brand name of car manufacturer
     bytes32 country;//make: country where the car is manufactured
     bytes32 manufacturerWebsite;
   }
+  /**
+  *Car struct definition/object
+  */
   struct CarStruct {
     //detail car specification is not included here, as it can be found from the manufacturers site
     bytes32 model;//model: attribute given by the manufacturer
@@ -26,6 +32,9 @@ contract CarTrade {
   mapping (bytes32 => CarStruct) CarsDB;
   bytes32[] public Vins;//car identification number db
 
+  /**
+  *register Car for sales
+  */
  function registerCarDetailInfo(
    bytes32 _model,
    bytes32 _vin,
@@ -55,30 +64,19 @@ contract CarTrade {
      return(true);
 
  }
-
- //get cars owned by seller//return may be an array. So try to modify the function below
+ /**
+ *get cars owned by seller//return may be an array. So try to modify the function below
+ */
  function getCarDetailInfo() public pure returns(
-     bytes32,
-     bytes32,
-     bool,
-     uint,
-     address,
-     uint,
-     bytes32,
-     bytes32,
-     bytes32) {
+     bytes32, bytes32, bool, uint, address,
+     uint, bytes32,  bytes32, bytes32) {
      //declare temporary CarStruct variable
      CarStruct memory car;
 
       return(
-       car.model,
-       car.vin,
-       car.isUsed,
-       car.year,
-       car.owner,
-       car.postedDate,
-       car.Make.brand,
-       car.Make.country,
+       car.model, car.vin, car.isUsed, car.year,
+       car.owner, car.postedDate,
+       car.Make.brand, car.Make.country,
        car.Make.manufacturerWebsite
        );
  }
@@ -134,88 +132,4 @@ contract CarTrade {
 
 
  }
-
-  //The address of the car, which will sign transactions made by this contract.
-address public carSigner;
-
-// Value of the car, in wei
-uint public carValue;
-
-bytes32 public licensePlate;
-
-// Owners of the car, they will be the ones that receive payments from the car.
-// We assume each owner owns the car equally.
-
-address[] public owners;
-uint constant MAX_OWNERS = 100;
-
-//Earning from driving will be distributed to each owner for them to withdraw
-mapping (address => uint) public ownersBalance;
-uint public balanceToDistribute;
-
-uint constant INITIAL_CAR_SHARES = 100;
-mapping (address => uint) public carShares;
-
-DriverEntity currentDriverEntity;
-DriveStatus currentDriveStatus;
-
-//To keep track of who's currently using the car
-//If the owners are driving it, it will be their address.
-//If someone rented it, it will be the renter address, so he can be held accountable.
-//In this case, we could even ask for a warranty which will be sent back if the car is ok.
-
-address currentDriverAddress;
-uint currentDriveStartTime = 0;
-uint currentDriveRequiredEndTime = 0;
-
-//Rates
-uint constant RATE_DAILYRENTAL = 1 ether; //1 ETH
-
-enum DriverEntity {
-    None,
-    Owner,
-    Autopilot,
-    Cab,
-    Uber,
-    DailyRental,
-    Other
-  }
-
-enum DriveStatus {
-    Idle,
-    Driving,
-    TurnedOff,
-    Unavailable
-  }
-
-// Somehow, the car should be able to communicate its "internals" to the contract.
-// These internals are the ones relevant to the functioning of the contract, such as it's fuel.
-// We don't care about oil or coolant for example, at this point at least.
-
-struct CarInternals {
-    uint fuel; //Measured in percentage
-  }
-
-CarInternals carInternals;
-
-bool carIsReady = false;
-
-modifier onlyIfReady {
-        require(carIsReady);
-        _;
-    }
-
-function SmartCar(bytes32 _licensePlate, uint _carValue) internal {
-    require(_licensePlate.length >0 && _carValue > 0);
-    carSigner = msg.sender;
-    carValue = _carValue;
-    licensePlate = _licensePlate;
-    carShares[address(this)] = INITIAL_CAR_SHARES;
-
-    currentDriveStatus = DriveStatus.Idle;
-    currentDriverEntity = DriverEntity.None;
-
-    carInternals.fuel = 100;
-  }
-
 }
