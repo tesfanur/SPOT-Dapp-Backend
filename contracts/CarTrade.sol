@@ -3,6 +3,12 @@ pragma solidity ^0.4.19;
 
 contract CarTrade {
 
+  struct CarMakeStruct {
+    //detail car specification is not included here, as it can be found from the manufacturers site
+    bytes32 brand;//make: brand name of car manufacturer
+    bytes32 country;//make: country where the car is manufactured
+    bytes32 manufacturerWebsite;
+  }
   struct CarStruct {
     //detail car specification is not included here, as it can be found from the manufacturers site
     bytes32 model;//model: attribute given by the manufacturer
@@ -14,12 +20,7 @@ contract CarTrade {
     CarMakeStruct Make;//car make
     //uint price;
   }
-  struct CarMakeStruct {
-    //detail car specification is not included here, as it can be found from the manufacturers site
-    bytes32 brand;//make: brand name of car manufacturer
-    bytes32 country;//make: country where the car is manufactured
-    bytes32 manufacturerWebsite;
-  }
+
 
   //Database to store car detail info => map vins with car detail info
   mapping (bytes32 => CarStruct) CarsDB;
@@ -56,8 +57,7 @@ contract CarTrade {
  }
 
  //get cars owned by seller//return may be an array. So try to modify the function below
- function getCarDetailInfo()
- public  returns(
+ function getCarDetailInfo() public pure returns(
      bytes32,
      bytes32,
      bool,
@@ -83,7 +83,7 @@ contract CarTrade {
        );
  }
 
-  function getAllCarsDetailInfo() public
+  function getAllCarsDetailInfo() public view
   returns(bytes32[], bytes32[], bool[], uint[], address[], uint[]) {
        /* ,
        uint[],
