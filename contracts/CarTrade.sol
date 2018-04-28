@@ -29,6 +29,7 @@ contract CarTrade {
 
 
   //Database to store car detail info => map vins with car detail info
+  // mapping (vinNum => CarStruct) CarsDB;
   mapping (bytes32 => CarStruct) CarsDB;
   bytes32[] public Vins;//car identification number db
 
@@ -66,12 +67,27 @@ contract CarTrade {
  }
  /**
  *get cars owned by seller//return may be an array. So try to modify the function below
+ *call : getCarDetailInfoOwnedBySeller({from:<address of seller>})
  */
- function getCarDetailInfo() public pure returns(
+ function getCarDetailInfoOwnedBySeller() public pure returns(
      bytes32, bytes32, bool, uint, address,
      uint, bytes32,  bytes32, bytes32) {
      //declare temporary CarStruct variable
      CarStruct memory car;
+
+      return(
+       car.model, car.vin, car.isUsed, car.year,
+       car.owner, car.postedDate,
+       car.Make.brand, car.Make.country,
+       car.Make.manufacturerWebsite
+       );
+ }
+ function getCarDetailInfoByVinNum(bytes32 _vinNum) public view returns(
+     bytes32, bytes32, bool, uint, address,
+     uint, bytes32,  bytes32, bytes32) {
+     //declare temporary CarStruct variable
+     CarStruct memory car;
+     car = CarsDB[_vinNum];
 
       return(
        car.model, car.vin, car.isUsed, car.year,

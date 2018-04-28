@@ -1,14 +1,4 @@
-/*
-pragma solidity ^0.4.19;
-contract HouseTrade {
-
-  function HouseTrade() public{
-
-  }
-} */
-
-
-pragma solidity ^0.4.19;
+ pragma solidity ^0.4.19;
 
 
 contract HouseTrade {
@@ -30,6 +20,9 @@ contract HouseTrade {
   //Database to store House detail info => map houseNo with House detail info
   mapping (bytes32 => HouseStruct) HousesDB;
   bytes32[] public HouseNos;//House identification number db
+
+  //events
+  event RetrivedAllHouseNums(bytes32[] houseNums, uint totalNumOfHouses);
 
  function registerHouseDetailInfo(
    bytes32 _company,
@@ -66,7 +59,7 @@ contract HouseTrade {
  /**
  get Houses owned by seller//return may be an array. So try to modify the function below
   */
- function getHouseDetailInfo(bytes32 _houseNum) public constant returns(bytes32, bytes32, uint, bool, uint, address, bytes32, uint, uint, bytes32) {
+ function getHouseDetailInfoByHouseNum(bytes32 _houseNum) public constant returns(bytes32, bytes32, uint, bool, uint, address, bytes32, uint, uint, bytes32) {
      //declare temporary HouseStruct variable
        HouseStruct memory house;
        house = HousesDB[_houseNum];
@@ -105,6 +98,17 @@ contract HouseTrade {
       return(
        companies, houseNums, isUseds,
        yearsBuilt, owners, postedDates);
+
+ }
+
+ /**
+ Get All Houses registed on ethereum blockchain
+ */
+  function getAllHousesNums() public
+  returns(bytes32[],uint) {
+     uint TOTAL_HOUSE =HouseNos.length;
+     emit RetrivedAllHouseNums(HouseNos,TOTAL_HOUSE);
+      return(HouseNos,TOTAL_HOUSE);
 
  }
 

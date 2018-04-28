@@ -18,6 +18,8 @@ User.at(User.address).getAllUsers();
 User.at(User.address).getUser({from:acct[1]});
 //----
 User.at(User.address).getUser({from:acct[9]});
+//login user feature
+User.at(User.address).login({from:acct[0]});
 
 //test user info from truffle console
 truffle(develop)> User.at(User.address).getUser({from:acct[7]})
@@ -40,9 +42,13 @@ truffle(develop)> User.at(User.address).getUser({from:acct[7]})
 
 //get all cars detail info
   CarTrade.at(CarTrade.address).getAllCarsDetailInfo()
+//to get car detail information by it vin num call the following function
+  CarTrade.at(CarTrade.address).getCarDetailInfoByVinNum("1M8GDE8AXMP041791")
 //register house
   HouseTrade.at(HouseTrade.address).registerHouseDetailInfo("Hayat Real State","123456",1998,true,"Semit",100,1000000,"Residential")
   HouseTrade.at(HouseTrade.address).registerHouseDetailInfo("Tsehay Real State","654321",2006,false,"CMC",500,3000000,"Office")
   HouseTrade.at(HouseTrade.address).registerHouseDetailInfo("Adran Real State","754321",2006,true,"CMC",1000,5000000,"Office")
 //get all registerd Houses
-HouseTrade.at(HouseTrade.address).getAllHousesDetailInfo()
+HouseTrade.at(HouseTrade.address).getAllHousesDetailInfo()//TODO: fix problem related to returning empty array element values
+//to get house infor by houseNum
+HouseTrade.at(HouseTrade.address).getHouseDetailInfoByHouseNum("754321")

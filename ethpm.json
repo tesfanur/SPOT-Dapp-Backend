@@ -1,0 +1,16 @@
+{
+"package_name": "smart-contract-gebeya-gebey-project",
+"version": "0.0.3",
+"description": "smart contract gebeya project for asset, like car and house, ownership transfer",
+"authors": [
+"Tesfaye Belachew <get.tesfaye.belachew@gmail.com>"
+],
+"keywords": [
+"ethereum",
+"addition"
+],
+"dependencies": {
+"owned": "*"
+},
+"license": "MIT"
+}

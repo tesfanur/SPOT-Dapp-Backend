@@ -17,6 +17,12 @@ networks: {
   //   port: 7545,
   //   network_id: "*" // matching any id
   // },
+  ganache: {
+    host: "127.0.0.1",
+     //gas: 4700000,
+    port: 8545,
+    network_id: "40" // matching id = 40
+  },
     ropsten: {
       provider:()=> new HDWalletProvider(mnemonic, "https://ropsten.infura.io/"+infuraApiKey)
        ,

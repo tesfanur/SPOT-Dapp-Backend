@@ -113,11 +113,11 @@ struct UserStruct {
       /// @notice Allows user to login using their ethereum account
       /// @dev    Here user refers to a buyer or seller of an asset
       /// @return  user account and username if user login is suscceful
-      function login() constant
+      function login(address _userAccountAddress) constant
       public
       onlyRegisterdUser
       returns (address, bytes32) {
-        return (UsersDB[msg.sender].userAccount,UsersDB[msg.sender].username);
+        return (UsersDB[_userAccountAddress].userAccount,UsersDB[_userAccountAddress].username);
       }
       /**
       *Get user by the address who called the function
