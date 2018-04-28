@@ -3,19 +3,25 @@ import "./User.sol";
 import "./CarTrade.sol";
 import "./HouseTrade.sol";
 
-contract Buyer {
+contract Buyer is User {
   CarTrade CarInfo;
   HouseTrade HouseInfo;
-  User UserProfile;
+  User public userProfile;
+  //Seller public seller;
 
-  function userLogin()
-  public constant returns (address, bytes32 username) {
+  //map buyers address with their balance
+  mapping (address => uint) buyersBalance;
+  mapping (address => uint) sellersBalance;
 
-   return (UserProfile.login(msg.sender));
-
-  }
   /* function sendRequestToByCar() public {
 
   } */
+
+  function withdrawToBuyCar(uint _withdrawAmount) public  payable returns (uint) {
+        if (buyersBalance[msg.sender] < _withdrawAmount) return;
+        buyersBalance[msg.sender] -= _withdrawAmount;
+        sellersBalance[receiver] += _withdrawAmount;
+        return (_withdrawAmount);
+  }
 
 }

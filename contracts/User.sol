@@ -9,6 +9,10 @@ import './zeppelin/lifecycle/Killable.sol';
 
 contract User is Killable {
 
+  function User() public{
+
+  }
+
 //buyer || seller => Counterparty
 struct UserStruct {
  address userAccount;
@@ -19,6 +23,7 @@ struct UserStruct {
  bytes32 username;
 }
   //variables to hold user database
+  //map user account address with their detail info
   mapping (address => UserStruct) public UsersDB;
   uint public totalNumberOfUsers;
   address[] public userEthAccounts;
@@ -117,6 +122,8 @@ struct UserStruct {
       public
       onlyRegisterdUser
       returns (address, bytes32) {
+        if(_userAccountAddress != address(0))
+        return (0x0,"no username");
         return (UsersDB[_userAccountAddress].userAccount,UsersDB[_userAccountAddress].username);
       }
       /**

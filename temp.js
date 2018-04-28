@@ -12,8 +12,12 @@ User.at(User.address).registerUser("Yirga","Badima","Agena","get.yirga.badima@gm
 User.at(User.address).registerUser("Dawit","Jemberu","Agena","get.dawit.jemberu@gmail.com","dave",{from:acct[7]});
 User.at(User.address).registerUser("Redamichael","Jemberu","Agena","get.redamichael.jemberu@gmail.com","reda",{from:acct[8]});
 User.at(User.address).registerUser("Mebratu","T/Haimanot","Agena","get.mebratu.thaimanot@gmail.com","mebre",{from:acct[9]});
+//Buyer inherits User contract and hence you can call any function from buyer contract but you need to uss user address
+Buyer.at(User.address).registerUser("Meheret","Tesfaye","Agena","get.meheret.tesfaye@gmail.com","meheretu",{from:acct[0]});
 //get all registerd users/buyers and sellers
 User.at(User.address).getAllUsers();
+//you can also call for all user info from buyer contract
+Buyer.at(User.address).getAllUsers()
 //get user detail info using his/her public key or account
 User.at(User.address).getUser({from:acct[1]});
 //----
