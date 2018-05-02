@@ -1,13 +1,13 @@
 # SMART CONTRACT DAPP REPOSITORY FOR PROPERTY OWNERSHIP TRANSFER(POT)
 
-Distributed Application for property(particularly car and house) ownership transfer build using
+###### Distributed Application(dapp) for property(particularly car and house) ownership transfer build
   -on top of ethereum blockchain
-  -solidity programming language
+  -using solidity programming language
   -truffle framework
 
 ## dApp(decentralized Application)
 
-###### dApp module structure
+###### dapp structure
 - contracts : contains smart contracts written in solidity
 - migration : contains smart contract migration code, useful for deployment of smart contracr to network.
 - test : contains test cases which can be written in Solidity or Javascript.  
