@@ -24,7 +24,7 @@ contract CarTrade {
     uint postedDate;//date by which the car is published for sales
     address owner;//make: country + manufacturer/brand
     CarMakeStruct Make;//car make
-    //uint price;
+    uint price;//price of car in birr
   }
 
 
@@ -43,7 +43,8 @@ contract CarTrade {
    bool _isUsed,
    bytes32 _brand,
    bytes32 _country,
-   bytes32 _manufacturerWebsite)  public payable returns(bool success) {
+   bytes32 _manufacturerWebsite,
+   uint _price)  public payable returns(bool success) {
      CarStruct memory newCar;
      //CarMakeStruct memory newCarMake;
 
@@ -53,6 +54,7 @@ contract CarTrade {
      newCar.year=_year;
      newCar.owner=msg.sender;
      newCar.postedDate=now;
+     newCar.price=_price;
 
      newCar.Make.brand=_brand;
      newCar.Make.country=_country;
@@ -96,8 +98,8 @@ contract CarTrade {
        car.Make.manufacturerWebsite
        );
  }
-
-  function getAllCarsDetailInfo() public view
+ CarStruct public car;
+  function getAllCarsDetailInfo() public payable
   returns(bytes32[], bytes32[], bool[], uint[], address[], uint[]) {
        /* ,
        uint[],
@@ -105,16 +107,17 @@ contract CarTrade {
        bytes32[],
        bytes32[] */
      //declare arrays that should hold the attributes of a car
-     CarStruct memory car;
+
      uint TOTAL_CARS =Vins.length;
 
     bytes32[] memory models= new bytes32[](TOTAL_CARS);
     bytes32[] memory vins= new bytes32[](TOTAL_CARS);
     bool[] memory isUseds= new 	bool[](TOTAL_CARS);
-    uint[] memory manufactureYears= new uint[](TOTAL_CARS);
+    uint[] memory yearsManufactured= new uint[](TOTAL_CARS);
     address[] memory owners= new address[](TOTAL_CARS);
+    uint[] memory prices= new uint[](TOTAL_CARS);
 
-    uint[] memory postedDates= new uint[](TOTAL_CARS);
+    //uint[] memory postedDates= new uint[](TOTAL_CARS);
     /*bytes32[] memory brands= new bytes32[](TOTAL_CARS);
     bytes32[] memory countries= new bytes32[](TOTAL_CARS);
     bytes32[] memory manufacturerWebsites= new bytes32[](TOTAL_CARS);*/
@@ -123,13 +126,14 @@ contract CarTrade {
      for(uint i; i<TOTAL_CARS;i++){
       car=CarsDB[Vins[i]];
 
-       models[i] =car.model;
-       vins[i] = car.vin;
-       isUseds[i] = car.isUsed;
-       manufactureYears[i] = car.year;
-       owners[i] = car.owner;
+      models[i] =car.model;
+      vins[i] = car.vin;
+      isUseds[i] = car.isUsed;
+      yearsManufactured[i] = car.year;
+      owners[i] = car.owner;
+      prices[i] = car.price;
 
-        postedDates[i] = car.postedDate;
+      //postedDates[i] = car.postedDate;
        /*brands[i] = car.Make.brand;
        countries[i] = car.Make.country;
        manufacturerWebsites[i] = car.Make.manufacturerWebsite;*/
@@ -138,9 +142,9 @@ contract CarTrade {
        models,
        vins,
        isUseds,
-       manufactureYears,
+       yearsManufactured,
        owners,
-       postedDates );  /* ,
+       prices );  /* ,
        manufacturerWebsites,
        brands,
        countries,
