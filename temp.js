@@ -56,3 +56,14 @@ truffle(develop)> User.at(User.address).getUser({from:acct[7]})
 HouseTrade.at(HouseTrade.address).getAllHousesDetailInfo()//TODO: fix problem related to returning empty array element values
 //to get house infor by houseNum
 HouseTrade.at(HouseTrade.address).getHouseDetailInfoByHouseNum("754321")
+
+//to transfer ether to a contract address or account
+//use the following truffle cli commands or smart contract interactions
+//receiveEther is custom solidity function for a contract to receive ether value
+//this can be done using fallback function but it has security risks
+Buyer.at(Buyer.address).receiveEther.sendTransaction({from:acct[8],to:Buyer.address, value:10000000000000000000});
+// returns: '0x192cc014a2d39facd19d3540c00833ec36b2b5058b73b3f71d8239afe6cd65d1'
+ web3._extend.utils.fromWei(web3.eth.getBalance(Buyer.address),"ether").toNumber()
+// returns: 20
+web3._extend.utils.fromWei(web3.eth.getBalance(acct[8]),"ether").toNumber()//buyers balance
+//returns: 49.89565779999977

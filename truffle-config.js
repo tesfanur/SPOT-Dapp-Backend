@@ -21,7 +21,7 @@ networks: {
     host: "127.0.0.1",
      //gas: 4700000,
     port: 8545,
-    network_id: "40" // matching id = 40
+    network_id: "*" // matching id = 40
   },
     ropsten: {
       provider:()=> new HDWalletProvider(mnemonic, "https://ropsten.infura.io/"+infuraApiKey)
