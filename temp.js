@@ -16,6 +16,12 @@ User.at(User.address).registerUser("Mebratu","T/Haimanot","Agena","get.mebratu.t
 Buyer.at(User.address).registerUser("Meheret","Tesfaye","Agena","get.meheret.tesfaye@gmail.com","meheretu",{from:acct[0]});
 //get all registerd users/buyers and sellers
 User.at(User.address).getAllUsers();
+//send ether to a Buyer contract address from user account address
+ Buyer.at(Buyer.address).receiveEther.sendTransaction({from:acct[8],to:Buyer.address, value:10000000000000000000});
+//transfer buyers contract balance to another account
+Buyer.at(User.address).transferTo(acc[0])
+//get Buyer contract balance
+Buyer.at(User.address).getContractBalance()
 //you can also call for all user info from buyer contract
 Buyer.at(User.address).getAllUsers()
 //get user detail info using his/her public key or account
@@ -23,7 +29,7 @@ User.at(User.address).getUser({from:acct[1]});
 //----
 User.at(User.address).getUser({from:acct[9]});
 //login user feature
-User.at(User.address).login({from:acct[0]});
+User.at(User.address).login({acct[0]);
 
 //test user info from truffle console
 truffle(develop)> User.at(User.address).getUser({from:acct[7]})

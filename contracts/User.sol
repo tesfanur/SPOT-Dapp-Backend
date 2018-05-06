@@ -46,9 +46,9 @@ struct UserStruct {
  /**
  *validate registed users
  */
-  modifier onlyRegisterdUser {
+  modifier onlyRegisterdUser(address _userAccountAddress) {
     // Check if user exists or terminate
-    require(!(UsersDB[msg.sender].userAccount == 0x0));
+    require(!(UsersDB[_userAccountAddress].userAccount == 0x0));
     _;
   }
 
@@ -120,7 +120,7 @@ struct UserStruct {
       /// @return  user account and username if user login is suscceful
       function login(address _userAccountAddress) constant
       public
-      onlyRegisterdUser
+      onlyRegisterdUser(_userAccountAddress)
       returns (address, bytes32) {
         if(_userAccountAddress != address(0))
         return (0x0,"no username");
@@ -248,6 +248,7 @@ struct UserStruct {
  /// @return updated user infor if user update query is suscceful
 
   function updateUserData(
+    address _userAccountAddress,
     bytes32 _firstName,
     bytes32 _middleName,
     bytes32 _lastName,
@@ -256,18 +257,18 @@ struct UserStruct {
   public
   payable
   onlyOwner
-  onlyRegisterdUser
+  onlyRegisterdUser(_userAccountAddress)
   returns (address, bytes32,bytes32,bytes32,bytes32,bytes32) {
             if(_firstName!=0x0)
-            UsersDB[msg.sender].firstName=_firstName;
+            UsersDB[_userAccountAddress].firstName=_firstName;
             if(_middleName!=0x0)
-            UsersDB[msg.sender].middleName=_middleName;
+            UsersDB[_userAccountAddress].middleName=_middleName;
             if(_lastName!=0x0)
-            UsersDB[msg.sender].lastName=_lastName;
+            UsersDB[_userAccountAddress].lastName=_lastName;
             if(_email!=0x0)
-            UsersDB[msg.sender].email=_email;
+            UsersDB[_userAccountAddress].email=_email;
             if(_username!=0x0)
-            UsersDB[msg.sender].username=_username;
+            UsersDB[_userAccountAddress].username=_username;
 
 
     return (UsersDB[msg.sender].userAccount,

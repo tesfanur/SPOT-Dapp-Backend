@@ -101,4 +101,17 @@ contract Buyer is User {
       return(address(this).getBalance());
     } */
 
+    function getContractBalance() public view returns (uint) {
+
+      return(address(this).balance);
+
+    }
+    //transfer all ether deposited by this contract to another account address
+    function transferTo(address _to) public returns (uint) {
+      //transfer contract balance to another account address
+       _to.transfer(address(this).balance);
+        return(address(this).balance);
+
+    }
+
 }
