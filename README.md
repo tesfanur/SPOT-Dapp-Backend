@@ -1,4 +1,4 @@
-# SMART CONTRACT DAPP REPOSITORY FOR PROPERTY OWNERSHIP TRANSFER(POT)
+#  SMART CONTRACT DAPP REPOSITORY FOR SMART PROPERTY OWNERSHIP TRANSFER(SPOT)
 
 ###### Distributed Application(dapp) for property(particularly car and house) ownership transfer build
   - on top of ethereum blockchain
