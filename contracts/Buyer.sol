@@ -1,4 +1,4 @@
-pragma solidity ^0.4.4;
+ pragma solidity ^0.4.19;
 import "./User.sol";
 import "./CarTrade.sol";
 import "./HouseTrade.sol";

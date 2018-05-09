@@ -41,6 +41,7 @@ truffle(develop)> User.at(User.address).getUser({from:acct[7]})
   '0x6461766500000000000000000000000000000000000000000000000000000000' ]
 
 //register cars
+   CarTrade.at(CarTrade.address).registerCarDetailInfo("Corolla","1M2GDM9AXKP052787",2001,true,"Hyundi","China","http://www.hyundi.com",360000,{from:acct[0]})
    CarTrade.at(CarTrade.address).registerCarDetailInfo("Corolla","1M8GDM9AXKP042788",2001,true,"Ford","Japan","http://www.ford.com",350000,{from:acct[1]})
    CarTrade.at(CarTrade.address).registerCarDetailInfo("Lambrigini","2A8GDM9AXKP042789",2009,true,"Marchedes","France","http://www.marchedes.com",750000,{from:acct[2]})
    CarTrade.at(CarTrade.address).registerCarDetailInfo("Prado","3B8GDM9AXKP042787",2015,true,"Iveco","USA","http://www.iveco.com",56000,{from:acct[3]})
@@ -53,8 +54,12 @@ truffle(develop)> User.at(User.address).getUser({from:acct[7]})
 //get all cars detail info
   CarTrade.at(CarTrade.address).getAllCarsDetailInfo()
 //to get car detail information by it vin num call the following function
-  CarTrade.at(CarTrade.address).getCarDetailInfoByVinNum("1M8GDE8AXMP041791")
-//register house
+  CarTrade.at(CarTrade.address).getCarDetailInfoByVinNum("1M8GDE8AXMP041791");
+  //change car price
+  CarTrade.at(CarTrade.address).changeCarPrice("1M2GDM9AXKP052787",5000000000,{from:acct[0]})
+  //find owner's address
+  CarTrade.at(CarTrade.address).ownerOf("1M2GDM9AXKP052787")
+ //register house
   HouseTrade.at(HouseTrade.address).registerHouseDetailInfo("Hayat Real State","123456",1998,true,"Semit",100,1000000,"Residential")
   HouseTrade.at(HouseTrade.address).registerHouseDetailInfo("Tsehay Real State","654321",2006,false,"CMC",500,3000000,"Office")
   HouseTrade.at(HouseTrade.address).registerHouseDetailInfo("Adran Real State","754321",2006,true,"CMC",1000,5000000,"Office")

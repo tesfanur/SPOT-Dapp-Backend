@@ -1,8 +1,9 @@
 pragma solidity ^0.4.19;
+import "./User.sol";
+import "./Buyer.sol";
 
 
 contract CarTrade {
-
   /**
   *Car Make struct definition/object
   */
@@ -32,6 +33,11 @@ contract CarTrade {
   // mapping (vinNum => CarStruct) CarsDB;
   mapping (bytes32 => CarStruct) CarsDB;
   bytes32[] public Vins;//car identification number db
+
+  modifier onlyCarOwner(bytes32 _vin) {
+    require(CarsDB[_vin].owner == msg.sender);
+    _;
+  }
 
   /**
   *register Car for sales
@@ -150,6 +156,23 @@ contract CarTrade {
        countries,
        manufacturerWebsites */
 
-
  }
+ //retrieve all cars vin number
+ function getAllCarVins() public view returns(bytes32[]){
+   return(Vins);
+ }
+ //change car price
+function changeCarPrice(bytes32 _vin, uint _price)
+onlyCarOwner(_vin)
+public returns(bool){
+    CarsDB[_vin].price=_price;
+    return(true);
+
+}
+
+function ownerOf(bytes32 _vin) public view returns(address){
+  return(CarsDB[_vin].owner);
+}
+
+
 }

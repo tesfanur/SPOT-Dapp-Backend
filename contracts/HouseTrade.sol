@@ -1,5 +1,6 @@
  pragma solidity ^0.4.19;
-
+ import "./User.sol";
+ import "./Buyer.sol";
 
 contract HouseTrade {
 
@@ -23,6 +24,11 @@ contract HouseTrade {
 
   //events
   event RetrivedAllHouseNums(bytes32[] houseNums, uint totalNumOfHouses);
+
+  modifier onlyHouseOwner(bytes32 _houseNum) {
+    require(HousesDB[_houseNum].owner == msg.sender);
+    _;
+  }
 
  function registerHouseDetailInfo(
    bytes32 _company,
@@ -111,5 +117,19 @@ contract HouseTrade {
       return(HouseNos,TOTAL_HOUSE);
 
  }
+
+
+ //change House price
+function changeHousePrice(bytes32 _houseNum, uint _price)
+onlyHouseOwner(_houseNum)
+public returns(bool){
+    HousesDB[_houseNum].price=_price;
+    return(true);
+
+}
+//retrieve owner of a house
+function ownerOf(bytes32 _houseNum) public view returns(address){
+  return(HousesDB[_houseNum].owner);
+}
 
 }
