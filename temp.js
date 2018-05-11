@@ -18,8 +18,14 @@ Buyer.at(User.address).registerUser("Meheret","Tesfaye","Agena","get.meheret.tes
 User.at(User.address).getAllUsers();
 //send ether to a Buyer contract address from user account address
  Buyer.at(Buyer.address).receiveEther.sendTransaction({from:acct[8],to:Buyer.address, value:10000000000000000000});
-//transfer buyers contract balance to another account
-Buyer.at(User.address).transferTo(acc[0])
+ //get balance of account in ether
+ web3._extend.utils.fromWei(web3.eth.getBalance(web3.eth.accounts[0]),"ether").toNumber() //ether
+ //get ether balance stored in a contract
+ web3._extend.utils.fromWei(web3.eth.getBalance(Buyer.address),"ether").toNumber()//ether
+ //send 10 ether from one account to another
+ web3.eth.sendTransaction({from:acct[8],to:acct[9], value:10000000000000000000});
+//transfer a certain ether from buyers contract balance to another account
+Buyer.at(Buyer.address).transferTo(web3.eth.accounts[8],10000000000000000000)
 //get Buyer contract balance
 Buyer.at(User.address).getContractBalance()
 //you can also call for all user info from buyer contract
@@ -53,6 +59,8 @@ truffle(develop)> User.at(User.address).getUser({from:acct[7]})
 
 //get all cars detail info
   CarTrade.at(CarTrade.address).getAllCarsDetailInfo()
+  //get car detail info
+    CarTrade.at(CarTrade.address).getCarDetailInfo()
 //to get car detail information by it vin num call the following function
   CarTrade.at(CarTrade.address).getCarDetailInfoByVinNum("1M8GDE8AXMP041791");
   //change car price

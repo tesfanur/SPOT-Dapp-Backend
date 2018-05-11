@@ -18,15 +18,15 @@ contract Buyer is User {
 
   } */
   /** @dev withdraw the amount recieved from a buyer and sends it to the seller
-  * @param _withdrawAmount the amount of ether to be sent for the selller
+  * @param _amountToPay the amount of ether to be sent for the selller
   * @param _seller the address of seller
-  * @return _withdrawAmount The amount to be sent for the selller
+  * @return _amountToPay The amount to be sent for the selller
   */
 
-  function withdrawToBuyCar(uint _withdrawAmount, address _seller) public  payable returns (uint,uint) {
-        if (buyersBalance[msg.sender] < _withdrawAmount) return;
-        buyersBalance[msg.sender] -= _withdrawAmount;
-        sellersBalance[_seller] += _withdrawAmount;
+  function payCarOwner(uint _amountToPay, address _seller) public  payable returns (uint,uint) {
+        if (buyersBalance[msg.sender] < _amountToPay) return;
+        buyersBalance[msg.sender] -= _amountToPay;
+        sellersBalance[_seller] += _amountToPay;
         return (buyersBalance[msg.sender],sellersBalance[_seller]);
         //return (_withdrawAmount,_seller);
   }
@@ -107,9 +107,11 @@ contract Buyer is User {
 
     }
     //transfer all ether deposited by this contract to another account address
-    function transferTo(address _to) public returns (uint) {
+    //10 ether: 10000000000000000000
+    function transferTo(address _to,uint _transferAmount) public returns (uint) {
       //transfer contract balance to another account address
-       _to.transfer(address(this).balance);
+        //_to.transfer(address(this).balance);
+        _to.transfer(_transferAmount);
         return(address(this).balance);
 
     }
