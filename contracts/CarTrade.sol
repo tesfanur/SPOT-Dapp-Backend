@@ -82,7 +82,6 @@ contract CarTrade {
      uint, bytes32,  bytes32, bytes32) {
      //declare temporary CarStruct variable
      CarStruct memory car;
-
       return(
        car.model, car.vin, car.isUsed, car.year,
        car.owner, car.postedDate,

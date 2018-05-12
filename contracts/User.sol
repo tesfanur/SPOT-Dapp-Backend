@@ -78,7 +78,7 @@ struct UserStruct {
 /// @param _email The first email address of a user (English)
 /// @param _username The first username of a user (English)
 /// @return true if user registeration is suscceful
-    function registerUser
+    function register
     (bytes32 _firstName,
     bytes32 _lastName,
     bytes32 _middleName,

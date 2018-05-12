@@ -2,18 +2,18 @@
 //and use them as input to register users, cars and houses for sales
 var acct = web3.eth.accounts;
 
-User.at(User.address).registerUser("Meheret","Tesfaye","Agena","get.meheret.tesfaye@gmail.com","meheretu",{from:acct[0]});
-User.at(User.address).registerUser("Tesfaye","Belachew","Abebe","get.tesfaye.belachew@gmail.com","tesfanur",{from:acct[1]});
-User.at(User.address).registerUser("Yared","Taye","Benti","get.yared.taye@gmail.com","gune",{from:acct[2]});
-User.at(User.address).registerUser("Sisay","Belachew","Abebe","get.sisay.belachew@gmail.com","belsti",{from:acct[3]});
-User.at(User.address).registerUser("Ejigayew","Belachew","Abebe","get.ejigayew.belachew@gmail.com","mango",{from:acct[4]});
-User.at(User.address).registerUser("Netsanet","Belachew","Abebe","get.netsanet.belachew@gmail.com","mitu",{from:acct[5]});
-User.at(User.address).registerUser("Yirga","Badima","Agena","get.yirga.badima@gmail.com","yirgalem",{from:acct[6]});
-User.at(User.address).registerUser("Dawit","Jemberu","Agena","get.dawit.jemberu@gmail.com","dave",{from:acct[7]});
-User.at(User.address).registerUser("Redamichael","Jemberu","Agena","get.redamichael.jemberu@gmail.com","reda",{from:acct[8]});
-User.at(User.address).registerUser("Mebratu","T/Haimanot","Agena","get.mebratu.thaimanot@gmail.com","mebre",{from:acct[9]});
+User.at(User.address).register("Meheret","Tesfaye","Agena","get.meheret.tesfaye@gmail.com","meheretu",{from:acct[0]});
+User.at(User.address).register("Tesfaye","Belachew","Abebe","get.tesfaye.belachew@gmail.com","tesfanur",{from:acct[1]});
+User.at(User.address).register("Yared","Taye","Benti","get.yared.taye@gmail.com","gune",{from:acct[2]});
+User.at(User.address).register("Sisay","Belachew","Abebe","get.sisay.belachew@gmail.com","belsti",{from:acct[3]});
+User.at(User.address).register("Ejigayew","Belachew","Abebe","get.ejigayew.belachew@gmail.com","mango",{from:acct[4]});
+User.at(User.address).register("Netsanet","Belachew","Abebe","get.netsanet.belachew@gmail.com","mitu",{from:acct[5]});
+User.at(User.address).register("Yirga","Badima","Agena","get.yirga.badima@gmail.com","yirgalem",{from:acct[6]});
+User.at(User.address).register("Dawit","Jemberu","Agena","get.dawit.jemberu@gmail.com","dave",{from:acct[7]});
+User.at(User.address).register("Redamichael","Jemberu","Agena","get.redamichael.jemberu@gmail.com","reda",{from:acct[8]});
+User.at(User.address).register("Mebratu","T/Haimanot","Agena","get.mebratu.thaimanot@gmail.com","mebre",{from:acct[9]});
 //Buyer inherits User contract and hence you can call any function from buyer contract but you need to uss user address
-Buyer.at(User.address).registerUser("Meheret","Tesfaye","Agena","get.meheret.tesfaye@gmail.com","meheretu",{from:acct[0]});
+Buyer.at(User.address).register("Meheret","Tesfaye","Agena","get.meheret.tesfaye@gmail.com","meheretu",{from:acct[0]});
 //get all registerd users/buyers and sellers
 User.at(User.address).getAllUsers();
 //send ether to a Buyer contract address from user account address
@@ -58,9 +58,7 @@ truffle(develop)> User.at(User.address).getUser({from:acct[7]})
    CarTrade.at(CarTrade.address).registerCarDetailInfo("LANDCRUZER","5C8JDM9AYKP042792",2003,true,"Toyota","USA","http://www.landcruzer.com",9550000,{from:acct[8]})
 
 //get all cars detail info
-  CarTrade.at(CarTrade.address).getAllCarsDetailInfo()
-  //get car detail info
-    CarTrade.at(CarTrade.address).getCarDetailInfo()
+  CarTrade.at(CarTrade.address).getAllCarsDetailInfo() 
 //to get car detail information by it vin num call the following function
   CarTrade.at(CarTrade.address).getCarDetailInfoByVinNum("1M8GDE8AXMP041791");
   //change car price

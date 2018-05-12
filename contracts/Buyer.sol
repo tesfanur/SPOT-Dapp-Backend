@@ -24,7 +24,7 @@ contract Buyer is User {
   */
 
   function payCarOwner(uint _amountToPay, address _seller) public  payable returns (uint,uint) {
-        if (buyersBalance[msg.sender] < _amountToPay) return;
+        //if (buyersBalance[msg.sender] < _amountToPay && buyersBalance[msg.sender] < CarsDB[_vin].price) return;
         buyersBalance[msg.sender] -= _amountToPay;
         sellersBalance[_seller] += _amountToPay;
         return (buyersBalance[msg.sender],sellersBalance[_seller]);
