@@ -8,7 +8,7 @@ pragma solidity ^0.4.17;
           if(msg.sender == owner) _;
     }
 
-      function Migrations() public {
+      constructor() public {
         owner = msg.sender;
       }
 

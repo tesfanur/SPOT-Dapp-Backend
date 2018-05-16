@@ -9,7 +9,7 @@ import './zeppelin/lifecycle/Killable.sol';
 
 contract User is Killable {
 
-  function User() public{
+constructor() public{
 
   }
 

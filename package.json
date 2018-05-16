@@ -12,6 +12,7 @@
   "author": "tesfaye belachew abebe",
   "license": "MIT",
   "dependencies": {
+    "eth-crypto": "^1.1.1",
     "ethereumjs-tx": "^1.3.4",
     "ethereumjs-util": "^5.1.5",
     "ethjs-util": "^0.1.4",

@@ -1,8 +1,16 @@
 const CarTrade = artifacts.require('./CarTrade.sol');
+const EthCrypto = require('eth-crypto');
+
+const identity = EthCrypto.createIdentity();
+const publicKey = EthCrypto.publicKeyByPrivateKey(
+      '0x107be946709e41b7895eea9f2dacf998a0a9124acbb786f0fd1a826101581a07'
+  );
+
 contract('CarTrade', function(accounts) {
-  it("CarTrade should access CarTrade contract", function() {
+  it("\nCarTrade should access CarTrade contract", function(done) {
+    console.log("publicKey",publicKey); //use this module to create public keys for assets
      CarTrade.deployed().then(function(carTradeContract) {
-        var acct = accounts;
+        var acct = web3.eth.accounts;
 
         carTradeContract.registerCarDetailInfo("Corolla","1M2GDM9AXKP052787",2001,true,"Hyundi","China","http://www.hyundi.com",360000,{from:acct[0]})
         carTradeContract.registerCarDetailInfo("Corolla","1M8GDM9AXKP042788",2001,true,"Ford","Japan","http://www.ford.com",350000,{from:acct[1]})
@@ -30,20 +38,7 @@ contract('CarTrade', function(accounts) {
         console.log("type of car mode info:",typeof carInfo[0] +"\n");
         //assert.equal( typeof carInfo[0], "String", "Car model field type is string");
       });
+      done();
       });
-  // it("Should return Car detail info", function() {
-  //    var instance;
-  //    return carTradeContract.then(function(_instance) {
-  //       instance = _instance;
-  //       return instance.getCarDetailInfo.call("1M2GDM9AXKP052787");
-  //    }).then(function(_carInfo) {
-  //      console.log('_carInfo: ' + _carInfo);
-  //       // console.log('VIN: ' + _carInfo[0]);
-  //       // console.log('Car make: ' + _carInfo[1]);
-  //       // console.log('Car model: ' + _carInfo[2]);
-  //       // assert.equal(_carInfo[0], "12345678901234567", "Car VIN is wrong");
-  //       // assert.equal(_carInfo[1], "Mitsubishi", "Car make is wrong");
-  //       // assert.equal(_carInfo[2], "Galant ES, 2009", "Car model is wrong");
-  //    });
-  // });
+
 });

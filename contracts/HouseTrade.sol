@@ -65,11 +65,15 @@ contract HouseTrade {
  /**
  get Houses owned by seller//return may be an array. So try to modify the function below
   */
- function getHouseDetailInfoByHouseNum(bytes32 _houseNum) public constant returns(bytes32, bytes32, uint, bool, uint, address, bytes32, uint, uint, bytes32) {
+ function getHouseDetailInfoByHouseNum(bytes32 _houseNum)
+ public constant returns(bytes32, bytes32, uint, bool, uint, address, bytes32, uint, uint, bytes32) {
      //declare temporary HouseStruct variable
        HouseStruct memory house;
        house = HousesDB[_houseNum];
-  return(house.company, house.houseNum, house.yearBuilt, house.isUsed, house.postedDate, house.owner, house.location, house.areaInCare, house.price, house.houseType);
+  return(house.company, house.houseNum,
+    house.yearBuilt, house.isUsed, house.postedDate,
+    house.owner, house.location, house.areaInCare,
+    house.price, house.houseType);
  }
  /**
  Get All Houses registed on ethereum blockchain
