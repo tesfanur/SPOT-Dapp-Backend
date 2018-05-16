@@ -40,5 +40,14 @@ contract('CarTrade', function(accounts) {
       });
       done();
       });
+  it("Should return list of cars owned by a seller", function(done){
+    CarTrade.deployed().then(function(carTradeContract) {
+       var acct = web3.eth.accounts;
+       return carTradeContract.getCarDetailInfoOwnedBySeller({from:acct[1]})
+     }).then(carsBySeller=>{
+       console.log("carsBySeller",carsBySeller);
+     });
+    done();
+  });
 
 });

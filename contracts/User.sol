@@ -278,5 +278,28 @@ struct UserStruct {
             UsersDB[msg.sender].email,
             UsersDB[msg.sender].username);
   }
+ /**
+ *lists the balance of user accounts
+ */
+  function getBalancesOfAllUsers() constant public returns(address[], uint[]){
+    uint TOTAL_USERS = userList.length;
+    // declare an array for each UserStruct attributes
+    address[] memory userAccounts= new address[](TOTAL_USERS);
+    uint[] memory userAccountBalances= new uint[](TOTAL_USERS);
+
+//loop over users struct array and assign them to bytes array since solidity is not yet provide
+//a feature to return struct data types
+      for(uint i;i<TOTAL_USERS;i++){
+        UserStruct memory currentCounterparty;
+        currentCounterparty=userList[i];
+        userAccounts[i]=currentCounterparty.userAccount;
+        userAccountBalances[i]=currentCounterparty.userAccount.balance;
+       }
+    //solidity doesn't support string concatination and hence u need work with bytes
+    //front end/dapp developer can convert the returned bytes32 into ascii
+    //using web3.js
+    return(userAccounts,userAccountBalances);
+
+  }
 
 }

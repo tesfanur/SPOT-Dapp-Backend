@@ -16,7 +16,7 @@ contract('User', function(accounts) {
         User.register("Redamichael","Jemberu","Agena","get.redamichael.jemberu@gmail.com","reda",{from:acct[8]});
         User.register("Mebratu","T/Haimanot","Agena","get.mebratu.thaimanot@gmail.com","mebre",{from:acct[9]});
 
-        return User.getAllUsers();
+        return User.getAllUsers();//returns array of user objects
       }).then(function(users) {
         var counter =0;
         var userInfo = "\n"+counter +". "+ "User Account Address" +" "+
@@ -34,9 +34,9 @@ contract('User', function(accounts) {
             userInfo = "\n"+counter +". "+ users[0][i] +" "+
             toAscii(users[1][i]) +" "+
             toAscii(users[3][i]) +" "+
-            toAscii(users[2][i]).trim() +" "+
-            toAscii(users[4][i]).trim() +" "+
-            toAscii(users[5][i]).trim();
+            toAscii(users[2][i]) +" "+
+            toAscii(users[4][i]) +" "+
+            toAscii(users[5][i]);
             assert.equal(accounts[0], users[0][0], "Coinbase address is "+users[0][0]);
             console.log(userInfo +"\n")
           }

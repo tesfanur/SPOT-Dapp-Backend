@@ -28,7 +28,6 @@ contract CarTrade {
     uint price;//price of car in birr
   }
 
-
   //Database to store car detail info => map vins with car detail info
   // mapping (vinNum => CarStruct) CarsDB;
   mapping (bytes32 => CarStruct) CarsDB;
@@ -171,6 +170,9 @@ public returns(bool){
 
 function ownerOf(bytes32 _vin) public view returns(address){
   return(CarsDB[_vin].owner);
+}
+//allow this contract to recieve ether /wie from other account or contract
+function receiveEther() public payable {
 }
 
 
