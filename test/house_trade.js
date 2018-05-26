@@ -5,10 +5,15 @@ contract('HouseTrade', function(accounts) {
      HouseTrade.deployed().then(function(houseTradeContract) {
         var acct = web3.eth.accounts;
         var fromAscii =web3._extend.utils.fromAscii;
+        var account= web3.eth.accounts;
 
         houseTradeContract.registerHouseDetailInfo(fromAscii("Hayat Real State"),fromAscii("123456"),1998,true,fromAscii("Semit"),100,1000000,fromAscii("Residential"))
         houseTradeContract.registerHouseDetailInfo(fromAscii("Tsehay Real State"),fromAscii("654321"),2006,false,fromAscii("CMC"),500,3000000,fromAscii("Office"))
         houseTradeContract.registerHouseDetailInfo(fromAscii("Adran Real State"),fromAscii("754321"),2006,true,fromAscii("CMC"),1000,5000000,fromAscii("Office"))
+        houseTradeContract.registerHouseDetailInfo(fromAscii("Agona Real State"),fromAscii("123460"),2003,true,fromAscii("Asko"),510,1000000,fromAscii("Residential"))
+        houseTradeContract.registerHouseDetailInfo(fromAscii("Abay Real State"),fromAscii("654325"),2009,false,fromAscii("Kality"),1100,3000000,fromAscii("Office"))
+        houseTradeContract.registerHouseDetailInfo(fromAscii("Derban Real State"),fromAscii("754326"),2012,true,fromAscii("Akaki"),1500,5000000,fromAscii("Office"))
+
 
         return houseTradeContract.getHouseDetailInfoByHouseNum(fromAscii("754321"))
       }).then(function(houseInfo) {

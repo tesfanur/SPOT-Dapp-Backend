@@ -9,7 +9,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "tesfaye belachew abebe",
+  "author": {"name":"tesfaye belachew abebe",
+  "email":"get.tesfaye.belachew@gmail.com",
+  "address":"Kirkos, Addis Ababa, Ethiopia"},
   "license": "MIT",
   "dependencies": {
     "eth-crypto": "^1.1.1",

@@ -7,6 +7,7 @@ const publicKey = EthCrypto.publicKeyByPrivateKey(
   );
 
 contract('CarTrade', function(accounts) {
+  var carInstance;
   it("\nCarTrade should access CarTrade contract", function(done) {
     console.log("publicKey",publicKey); //use this module to create public keys for assets
      CarTrade.deployed().then(function(carTradeContract) {
