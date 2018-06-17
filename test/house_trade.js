@@ -1,25 +1,26 @@
 const HouseTrade = artifacts.require('./HouseTrade.sol');
 
+//add other global variables here for this test code so that your can't duplicate your code/yourself
+
 contract('HouseTrade', function(accounts) {
-  it("\nHouseTrade should access HouseTrade contract", function(done) {
+  var acct = web3.eth.accounts || accounts;
+  var fromAscii =web3._extend.utils.fromAscii;
+  var account= web3.eth.accounts;
+  var toAscii =web3._extend.utils.toAscii;
+
+  it("HouseTrade should access HouseTrade contract", function(done) {
      HouseTrade.deployed().then(function(houseTradeContract) {
-        var acct = web3.eth.accounts;
-        var fromAscii =web3._extend.utils.fromAscii;
-        var account= web3.eth.accounts;
 
-        houseTradeContract.registerHouseDetailInfo(fromAscii("Hayat Real State"),fromAscii("123456"),1998,true,fromAscii("Semit"),100,1000000,fromAscii("Residential"))
-        houseTradeContract.registerHouseDetailInfo(fromAscii("Tsehay Real State"),fromAscii("654321"),2006,false,fromAscii("CMC"),500,3000000,fromAscii("Office"))
-        houseTradeContract.registerHouseDetailInfo(fromAscii("Adran Real State"),fromAscii("754321"),2006,true,fromAscii("CMC"),1000,5000000,fromAscii("Office"))
-        houseTradeContract.registerHouseDetailInfo(fromAscii("Agona Real State"),fromAscii("123460"),2003,true,fromAscii("Asko"),510,1000000,fromAscii("Residential"))
-        houseTradeContract.registerHouseDetailInfo(fromAscii("Abay Real State"),fromAscii("654325"),2009,false,fromAscii("Kality"),1100,3000000,fromAscii("Office"))
-        houseTradeContract.registerHouseDetailInfo(fromAscii("Derban Real State"),fromAscii("754326"),2012,true,fromAscii("Akaki"),1500,5000000,fromAscii("Office"))
+        houseTradeContract.registerHouseDetailInfo(fromAscii("Hayat Real State"),fromAscii("123456"),1998,true,fromAscii("Semit"),100,1000000,fromAscii("Residential"),{from:acct[0]})
+        houseTradeContract.registerHouseDetailInfo(fromAscii("Tsehay Real State"),fromAscii("654321"),2006,false,fromAscii("CMC"),500,3000000,fromAscii("Office"),{from:acct[1]})
+        houseTradeContract.registerHouseDetailInfo(fromAscii("Adran Real State"),fromAscii("754321"),2006,true,fromAscii("CMC"),1000,5000000,fromAscii("Office"),{from:acct[2]})
+        houseTradeContract.registerHouseDetailInfo(fromAscii("Agona Real State"),fromAscii("123460"),2003,true,fromAscii("Asko"),510,1000000,fromAscii("Residential"),{from:acct[3]})
+        houseTradeContract.registerHouseDetailInfo(fromAscii("Abay Real State"),fromAscii("654325"),2009,false,fromAscii("Kality"),1100,3000000,fromAscii("Office"),{from:acct[4]})
+        houseTradeContract.registerHouseDetailInfo(fromAscii("Derban Real State"),fromAscii("754326"),2012,true,fromAscii("Akaki"),1500,5000000,fromAscii("Office"),{from:acct[5]})
 
-
-        return houseTradeContract.getHouseDetailInfoByHouseNum(fromAscii("754321"))
+        return houseTradeContract.getHouseDetailInfoByHouseNum(fromAscii("654321"))
       }).then(function(houseInfo) {
-        var toAscii =web3._extend.utils.toAscii;
-        //var model = toAscii()
-        // console.log("houseInfo",houseInfo);
+
         console.log("\n"+"house Company:",toAscii(houseInfo[0]) +"\n");
         console.log("house Number:",toAscii(houseInfo[1]) +"\n");
         console.log("house built in:",houseInfo[2] +"\n");

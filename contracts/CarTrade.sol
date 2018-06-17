@@ -30,11 +30,12 @@ contract CarTrade {
 
   //Database to store car detail info => map vins with car detail info
   // mapping (vinNum => CarStruct) CarsDB;
-  mapping (bytes32 => CarStruct) CarsDB;
+  mapping (bytes32 => CarStruct) CarsDBbyVinNum;
+  mapping (address => CarStruct[]) CarsDBbyOwner;
   bytes32[] public Vins;//car identification number db
 
   modifier onlyCarOwner(bytes32 _vin) {
-    require(CarsDB[_vin].owner == msg.sender);
+    require(CarsDBbyVinNum[_vin].owner == msg.sender);
     _;
   }
 
@@ -65,9 +66,10 @@ contract CarTrade {
      newCar.Make.country=_country;
      newCar.Make.manufacturerWebsite=_manufacturerWebsite;
      //add new car info to CarsDB
-     CarsDB[_vin]=newCar;
+     CarsDBbyVinNum[_vin]=newCar;
      //track the number of cars registerd
      Vins.push(_vin);
+      CarsDBbyOwner[msg.sender].push(newCar);
 
      return(true);
 
@@ -75,11 +77,15 @@ contract CarTrade {
  /**
  *get cars owned by seller//return may be an array. So try to modify the function below
  *call : getCarDetailInfoOwnedBySeller({from:<address of seller>})
+ *TODO: fix the following function bug or re design the car struct/data model
  */
- function getCarDetailInfoOwnedBySeller() public pure returns(
+ function getCarDetailInfoOwnedByOwner() public view returns(
      bytes32, bytes32, bool, uint, address,
      uint, bytes32,  bytes32, bytes32) {
      //declare temporary CarStruct variable
+     address sender;
+     sender =msg.sender;
+
      CarStruct memory car;
       return(
        car.model, car.vin, car.isUsed, car.year,
@@ -88,12 +94,15 @@ contract CarTrade {
        car.Make.manufacturerWebsite
        );
  }
+ /**
+ *
+ */
  function getCarDetailInfoByVinNum(bytes32 _vinNum) public view returns(
      bytes32, bytes32, bool, uint, address,
      uint, bytes32,  bytes32, bytes32) {
      //declare temporary CarStruct variable
      CarStruct memory car;
-     car = CarsDB[_vinNum];
+     car = CarsDBbyVinNum[_vinNum];
 
       return(
        car.model, car.vin, car.isUsed, car.year,
@@ -102,16 +111,16 @@ contract CarTrade {
        car.Make.manufacturerWebsite
        );
  }
- CarStruct public car;
+  /* CarStruct public car; */
   function getAllCarsDetailInfo() public payable
-  returns(bytes32[], bytes32[], bool[], uint[], address[], uint[]) {
+  returns(bytes32[], bytes32[], bool[], uint[],  uint[]) {
        /* ,
        uint[],
        bytes32[],
        bytes32[],
        bytes32[] */
      //declare arrays that should hold the attributes of a car
-
+     CarStruct memory car;
      uint TOTAL_CARS =Vins.length;
 
     bytes32[] memory models= new bytes32[](TOTAL_CARS);
@@ -128,7 +137,7 @@ contract CarTrade {
 
 
      for(uint i; i<TOTAL_CARS;i++){
-      car=CarsDB[Vins[i]];
+      car=CarsDBbyVinNum[Vins[i]];
 
       models[i] =car.model;
       vins[i] = car.vin;
@@ -147,7 +156,7 @@ contract CarTrade {
        vins,
        isUseds,
        yearsManufactured,
-       owners,
+       //owners,
        prices );  /* ,
        manufacturerWebsites,
        brands,
@@ -163,13 +172,13 @@ contract CarTrade {
 function changeCarPrice(bytes32 _vin, uint _price)
 onlyCarOwner(_vin)
 public returns(bool){
-    CarsDB[_vin].price=_price;
+    CarsDBbyVinNum[_vin].price=_price;
     return(true);
 
 }
 
 function ownerOf(bytes32 _vin) public view returns(address){
-  return(CarsDB[_vin].owner);
+  return(CarsDBbyVinNum[_vin].owner);
 }
 //allow this contract to recieve ether /wie from other account or contract
 function receiveEther() public payable {
