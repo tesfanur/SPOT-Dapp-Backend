@@ -20,8 +20,8 @@
     "ethjs-util": "^0.1.4",
     "keythereum": "^1.0.3",
     "truffle-contract": "^3.0.5",
-    "truffle-hdwallet-provider": "0.0.3",
+    "truffle-hdwallet-provider": "1.0.17",
     "web3": "^0.20.6",
-    "web3-provider-engine": "^14.0.4"
+    "web3-provider-engine": "^14.2.1"
   }
 }
